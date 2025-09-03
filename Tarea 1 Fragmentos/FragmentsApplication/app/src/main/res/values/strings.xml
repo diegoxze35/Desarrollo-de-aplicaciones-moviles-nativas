@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">FragmentsApplication</string>
+    <string name="title_home">Calculator</string>
+    <string name="title_dashboard">History</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="number_one">Number One</string>
+    <string name="number_two">Number two</string>
+    <string name="add" translatable="false">+</string>
+    <string name="subtract" translatable="false">-</string>
+    <string name="multiply" translatable="false">×</string>
+    <string name="divide" translatable="false">÷</string>
+    <string name="add_text">Add</string>
+    <string name="subtraction_text">Subtraction</string>
+    <string name="multiply_text">Multiply</string>
+    <string name="division_text">Division</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="circular_progress">A circular progress bar is a UI component that uses a spinning or filling circle to visually communicate the status of a task or process</string>
+    <string name="horizontal_description">A horizontal progress bar is a graphical UI element that visually indicates progress along a linear, left-to-right path, filling a defined bar to show the completion percentage of a task</string>
+    <string name="progress_bar">Progress bar</string>
+    <string name="checkbox">Checkbox</string>
+</resources>
