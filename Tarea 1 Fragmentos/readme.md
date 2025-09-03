@@ -2,6 +2,10 @@
 
 Este documento describe el flujo principal de la app y el propósito de cada Composable del paquete ui/screen. La app está construida con Jetpack Compose y Navigation Compose, y organiza sus pantallas mediante una barra de navegación inferior.
 
+
+https://github.com/user-attachments/assets/9919cbeb-f3a0-4a32-9526-a56189e66eb3
+
+
 ---
 
 ### MainActivity.kt
