@@ -1,0 +1,122 @@
+<resources>
+    <string name="app_name">NavigationActivity</string>
+
+    <!-- Screen Titles -->
+    <string name="title_ui_elements_demo">UI Elements Demo</string>
+    <string name="title_textfields">TextFields</string>
+    <string name="title_buttons">Botones</string>
+    <string name="title_selection">Elementos de Selección</string>
+    <string name="title_lists">Listas</string>
+    <string name="title_information">Elementos de Información</string>
+
+    <!-- Navigation Labels -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_textfields">TextFields</string>
+    <string name="nav_buttons">Botones</string>
+    <string name="nav_selection">Selección</string>
+    <string name="nav_lists">Listas</string>
+    <string name="nav_info">Info</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_home">Home</string>
+    <string name="cd_settings">Settings</string>
+    <string name="cd_search">Search</string>
+    <string name="cd_add">Add</string>
+    <string name="cd_star">Estrella</string>
+    <string name="cd_heart">Corazón</string>
+    <string name="cd_configuration">Configuración</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">¿Qué es Scaffold?</string>
+    <string name="home_scaffold_description">Scaffold es un composable fundamental en Jetpack Compose que proporciona la estructura básica para implementar el diseño visual de Material Design.</string>
+    <string name="home_main_features">Características principales:</string>
+    <string name="home_feature_1">• Proporciona slots para elementos comunes como TopAppBar, BottomAppBar, NavigationBar y FloatingActionButton</string>
+    <string name="home_feature_2">• Maneja automáticamente el padding y posicionamiento de los elementos</string>
+    <string name="home_feature_3">• Incluye un Surface interno, por lo que no necesitas envolver tu contenido en un Surface adicional</string>
+    <string name="home_feature_4">• Facilita la implementación de patrones de diseño consistentes en toda la aplicación</string>
+    <string name="home_in_this_app">En esta aplicación:</string>
+    <string name="home_app_feature_1">• La TopAppBar muestra el título de cada pantalla dinámicamente</string>
+    <string name="home_app_feature_2">• La NavigationBar en la parte inferior permite navegar entre las diferentes secciones</string>
+    <string name="home_app_feature_3">• El contenido principal se ajusta automáticamente para no superponerse con estos elementos</string>
+    <string name="home_navigation_title">Navegación:</string>
+    <string name="home_navigation_description">Utiliza la barra de navegación inferior para explorar las diferentes secciones de elementos de UI. Cada sección contiene ejemplos interactivos y explicaciones detalladas.</string>
+
+    <!-- TextFields Screen -->
+    <string name="textfields_description">Los TextFields permiten al usuario introducir y editar texto. Son fundamentales para formularios y entrada de datos.</string>
+    <string name="textfield_basic_label">Texto básico</string>
+    <string name="textfield_basic_placeholder">Escribe algo aquí…</string>
+    <string name="textfield_password_label">Contraseña</string>
+    <string name="textfield_password_placeholder">Introduce tu contraseña</string>
+    <string name="textfield_number_label">Solo números</string>
+    <string name="textfield_number_placeholder">123456</string>
+    <string name="textfield_multiline_label">Texto multilínea</string>
+    <string name="textfield_multiline_placeholder">Escribe un texto largo…</string>
+    <string name="textfields_current_values">Valores actuales:</string>
+    <string name="textfields_basic_value">Básico: %1$s</string>
+    <string name="textfields_password_value">Contraseña: %1$s</string>
+    <string name="textfields_number_value">Número: %1$s</string>
+    <string name="textfields_multiline_value">Multilínea: %1$s</string>
+    <string name="textfields_ellipsis">...</string>
+
+    <!-- Buttons Screen -->
+    <string name="buttons_description">Los botones permiten al usuario realizar acciones. Hay diferentes tipos según la importancia y el contexto de la acción.</string>
+    <string name="button_filled">Filled Button</string>
+    <string name="button_outlined">Outlined Button</string>
+    <string name="button_text">Text Button</string>
+    <string name="buttons_current_state">Estado actual:</string>
+    <string name="buttons_total_clicks">Clicks totales: %1$d</string>
+    <string name="buttons_last_pressed">Último botón presionado: %1$s</string>
+    <string name="button_none">Ninguno</string>
+    <string name="button_icon_1">Icon Button 1</string>
+    <string name="button_icon_2">Icon Button 2</string>
+    <string name="button_icon_3">Icon Button 3</string>
+    <string name="button_fab">FAB</string>
+
+    <!-- Selection Screen -->
+    <string name="selection_description">Los elementos de selección permiten al usuario elegir entre opciones. Cada uno tiene un uso específico según el contexto.</string>
+    <string name="selection_checkbox_title">CheckBox</string>
+    <string name="selection_checkbox_description">Para selecciones múltiples independientes</string>
+    <string name="selection_checkbox_text">Acepto los términos y condiciones</string>
+    <string name="selection_radiobutton_title">RadioButton</string>
+    <string name="selection_radiobutton_description">Para selección única entre múltiples opciones</string>
+    <string name="selection_option_1">Opción 1</string>
+    <string name="selection_option_2">Opción 2</string>
+    <string name="selection_option_3">Opción 3</string>
+    <string name="selection_switch_title">Switch</string>
+    <string name="selection_switch_description">Para activar/desactivar funcionalidades</string>
+    <string name="selection_notifications">Notificaciones</string>
+    <string name="selection_current_state">Estado actual:</string>
+    <string name="selection_checkbox_checked">Marcado</string>
+    <string name="selection_checkbox_unchecked">No marcado</string>
+    <string name="selection_checkbox_state">CheckBox: %1$s</string>
+    <string name="selection_radiobutton_state">RadioButton: %1$s</string>
+    <string name="selection_switch_activated">Activado</string>
+    <string name="selection_switch_deactivated">Desactivado</string>
+    <string name="selection_switch_state">Switch: %1$s</string>
+
+    <!-- Lists Screen -->
+    <string name="lists_description">Las listas permiten mostrar grandes cantidades de datos de forma eficiente. LazyColumn y LazyGrid solo renderizan elementos visibles.</string>
+    <string name="lists_lazycolumn_title">LazyColumn</string>
+    <string name="lists_lazycolumn_description">Lista vertical con scroll</string>
+    <string name="lists_lazygrid_title">LazyVerticalGrid</string>
+    <string name="lists_lazygrid_description">Cuadrícula con scroll vertical</string>
+    <string name="lists_element">Elemento %1$d</string>
+    <string name="lists_item">Item %1$d</string>
+
+    <!-- Information Screen -->
+    <string name="information_description">Los elementos de información muestran datos al usuario sin requerir interacción directa. Son fundamentales para la comunicación visual.</string>
+    <string name="information_text_title">Text (TextView)</string>
+    <string name="information_text_description">Para mostrar texto estático o dinámico</string>
+    <string name="information_text_normal">Texto normal</string>
+    <string name="information_text_bold">Texto en negrita</string>
+    <string name="information_text_large">Texto grande</string>
+    <string name="information_text_colored">Texto con color</string>
+    <string name="information_image_title">Image (ImageView)</string>
+    <string name="information_image_description">Para mostrar imágenes y gráficos</string>
+    <string name="information_progressbar_title">ProgressBar</string>
+    <string name="information_progressbar_description">Para mostrar progreso de operaciones</string>
+    <string name="information_progress_linear">Progreso lineal:</string>
+    <string name="information_progress_circular">Progreso circular:</string>
+    <string name="information_loading">Cargando:</string>
+    <string name="information_progress_percentage">%1$d%%</string>
+</resources>
