@@ -3,7 +3,7 @@
 
     <!-- Screen Titles -->
     <string name="title_ui_elements_demo">UI Elements Demo</string>
-    <string name="title_textfields">TextFields</string>
+    <string name="title_text_fields">TextFields</string>
     <string name="title_buttons">Botones</string>
     <string name="title_selection">Elementos de Selección</string>
     <string name="title_lists">Listas</string>
@@ -11,7 +11,7 @@
 
     <!-- Navigation Labels -->
     <string name="nav_home">Inicio</string>
-    <string name="nav_textfields">TextFields</string>
+    <string name="nav_text_fields">TextFields</string>
     <string name="nav_buttons">Botones</string>
     <string name="nav_selection">Selección</string>
     <string name="nav_lists">Listas</string>
@@ -42,21 +42,21 @@
     <string name="home_navigation_description">Utiliza la barra de navegación inferior para explorar las diferentes secciones de elementos de UI. Cada sección contiene ejemplos interactivos y explicaciones detalladas.</string>
 
     <!-- TextFields Screen -->
-    <string name="textfields_description">Los TextFields permiten al usuario introducir y editar texto. Son fundamentales para formularios y entrada de datos.</string>
-    <string name="textfield_basic_label">Texto básico</string>
-    <string name="textfield_basic_placeholder">Escribe algo aquí…</string>
-    <string name="textfield_password_label">Contraseña</string>
-    <string name="textfield_password_placeholder">Introduce tu contraseña</string>
-    <string name="textfield_number_label">Solo números</string>
-    <string name="textfield_number_placeholder">123456</string>
-    <string name="textfield_multiline_label">Texto multilínea</string>
-    <string name="textfield_multiline_placeholder">Escribe un texto largo…</string>
-    <string name="textfields_current_values">Valores actuales:</string>
-    <string name="textfields_basic_value">Básico: %1$s</string>
-    <string name="textfields_password_value">Contraseña: %1$s</string>
-    <string name="textfields_number_value">Número: %1$s</string>
-    <string name="textfields_multiline_value">Multilínea: %1$s</string>
-    <string name="textfields_ellipsis">...</string>
+    <string name="text_fields_description">Los TextFields permiten al usuario introducir y editar texto. Son fundamentales para formularios y entrada de datos.</string>
+    <string name="text_field_basic_label">Texto básico</string>
+    <string name="text_field_basic_placeholder">Escribe algo aquí…</string>
+    <string name="text_field_password_label">Contraseña</string>
+    <string name="text_field_password_placeholder">Introduce tu contraseña</string>
+    <string name="text_field_number_label">Solo números</string>
+    <string name="text_field_number_placeholder">123456</string>
+    <string name="text_field_multiline_label">Texto multilínea</string>
+    <string name="text_field_multiline_placeholder">Escribe un texto largo…</string>
+    <string name="text_fields_current_values">Valores actuales:</string>
+    <string name="text_fields_basic_value">Básico: %1$s</string>
+    <string name="text_fields_password_value">Contraseña: %1$s</string>
+    <string name="text_fields_number_value">Número: %1$s</string>
+    <string name="text_fields_multiline_value">Multilínea: %1$s</string>
+    <string name="text_fields_ellipsis">...</string>
 
     <!-- Buttons Screen -->
     <string name="buttons_description">Los botones permiten al usuario realizar acciones. Hay diferentes tipos según la importancia y el contexto de la acción.</string>
