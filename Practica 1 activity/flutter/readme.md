@@ -45,3 +45,7 @@ Esta es una aplicación Flutter que replica la funcionalidad de la aplicación A
 - La animación del ProgressIndicator se implementa con AnimationController.
 
 ## Funcionamiento de la aplicación
+
+
+https://github.com/user-attachments/assets/858ad71e-c9b2-46fe-a2c9-03f8d75629fe
+
