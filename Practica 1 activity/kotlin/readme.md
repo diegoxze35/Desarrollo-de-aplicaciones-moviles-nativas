@@ -37,7 +37,3 @@ Esta es una aplicación Android nativa escrita en Kotlin que utiliza Jetpack Com
 - `InformationScreen`: Demostración de textos, imágenes e indicadores de progreso.
 
 ## Funcionamiento de la aplicación
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT.
