@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 void main() {
@@ -54,6 +55,20 @@ class _NavigationScreenState extends State<NavigationScreen> {
       appBar: AppBar(
         title: Text(_screenTitles[_currentIndex]),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        actions: [
+          // Botón para navegar a la nueva actividad
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AnotherScreen()),
+              );
+            },
+            child: const Text(
+              'Activity',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: NavigationBar(
@@ -64,30 +79,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
           });
         },
         destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.edit),
-            label: 'TextFields',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.touch_app),
-            label: 'Buttons',
-          ),
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+          NavigationDestination(icon: Icon(Icons.edit), label: 'TextFields'),
+          NavigationDestination(icon: Icon(Icons.touch_app), label: 'Buttons'),
           NavigationDestination(
             icon: Icon(Icons.check_circle),
             label: 'Selection',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.list),
-            label: 'Lists',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.info),
-            label: 'Info',
-          ),
+          NavigationDestination(icon: Icon(Icons.list), label: 'Lists'),
+          NavigationDestination(icon: Icon(Icons.info), label: 'Info'),
         ],
       ),
     );
@@ -165,7 +165,9 @@ class HomeScreen extends StatelessWidget {
                     'Navigation',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text('Use the bottom navigation bar to switch between sections.'),
+                  Text(
+                    'Use the bottom navigation bar to switch between sections.',
+                  ),
                 ],
               ),
             ),
@@ -246,7 +248,7 @@ class _TextFieldsScreenState extends State<TextFieldsScreen> {
           ),
           const SizedBox(height: 16),
           Card(
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -259,7 +261,9 @@ class _TextFieldsScreenState extends State<TextFieldsScreen> {
                   Text('Basic: ${_basicController.text}'),
                   Text('Password: ${'*' * _passwordController.text.length}'),
                   Text('Number: ${_numberController.text}'),
-                  Text('Multiline: ${_multilineController.text.length > 50 ? '${_multilineController.text.substring(0, 50)}...' : _multilineController.text}'),
+                  Text(
+                    'Multiline: ${_multilineController.text.length > 50 ? '${_multilineController.text.substring(0, 50)}...' : _multilineController.text}',
+                  ),
                 ],
               ),
             ),
@@ -374,7 +378,7 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
           ),
           const SizedBox(height: 16),
           Card(
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -430,7 +434,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     'Checkbox',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const Text('A checkbox allows the user to select one or more options.'),
+                  const Text(
+                    'A checkbox allows the user to select one or more options.',
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -460,7 +466,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     'RadioButton',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const Text('Radio buttons allow the user to select one option from a set.'),
+                  const Text(
+                    'Radio buttons allow the user to select one option from a set.',
+                  ),
                   const SizedBox(height: 8),
                   Column(
                     children: [
@@ -484,7 +492,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     'Switch',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const Text('A switch is a control that toggles between two states, on and off.'),
+                  const Text(
+                    'A switch is a control that toggles between two states, on and off.',
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -506,7 +516,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
           ),
           const SizedBox(height: 16),
           Card(
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -573,16 +583,23 @@ class ListsScreen extends StatelessWidget {
                   children: [
                     const Text(
                       'ListView',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    const Text('A vertically scrolling list that only renders the visible items.'),
+                    const Text(
+                      'A vertically scrolling list that only renders the visible items.',
+                    ),
                     const SizedBox(height: 8),
                     Expanded(
                       child: ListView.builder(
                         itemCount: items.length,
                         itemBuilder: (context, index) {
                           return Card(
-                            color: Theme.of(context).colorScheme.primaryContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
                             child: ListTile(
                               leading: Icon(
                                 Icons.star,
@@ -609,28 +626,38 @@ class ListsScreen extends StatelessWidget {
                   children: [
                     const Text(
                       'GridView',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    const Text('A vertically scrolling grid that only renders the visible items.'),
+                    const Text(
+                      'A vertically scrolling grid that only renders the visible items.',
+                    ),
                     const SizedBox(height: 8),
                     Expanded(
                       child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 1.0,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 1.0,
+                            ),
                         itemCount: gridItems.length,
                         itemBuilder: (context, index) {
                           return Card(
-                            color: Theme.of(context).colorScheme.secondaryContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
                                   Icons.favorite,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.secondary,
                                   size: 24,
                                 ),
                                 const SizedBox(height: 8),
@@ -663,7 +690,8 @@ class InformationScreen extends StatefulWidget {
   State<InformationScreen> createState() => _InformationScreenState();
 }
 
-class _InformationScreenState extends State<InformationScreen> with SingleTickerProviderStateMixin {
+class _InformationScreenState extends State<InformationScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -713,13 +741,12 @@ class _InformationScreenState extends State<InformationScreen> with SingleTicker
                     'Bold text',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const Text(
-                    'Large text',
-                    style: TextStyle(fontSize: 24),
-                  ),
+                  const Text('Large text', style: TextStyle(fontSize: 24)),
                   Text(
                     'Colored text',
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ],
               ),
@@ -798,9 +825,7 @@ class _InformationScreenState extends State<InformationScreen> with SingleTicker
                   AnimatedBuilder(
                     animation: _animation,
                     builder: (context, child) {
-                      return LinearProgressIndicator(
-                        value: _animation.value,
-                      );
+                      return LinearProgressIndicator(value: _animation.value);
                     },
                   ),
                   const SizedBox(height: 8),
@@ -842,6 +867,234 @@ class _InformationScreenState extends State<InformationScreen> with SingleTicker
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AnotherScreen extends StatefulWidget {
+  const AnotherScreen({super.key});
+
+  @override
+  State<AnotherScreen> createState() => _AnotherScreenState();
+}
+
+class _AnotherScreenState extends State<AnotherScreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = const [AnimationsScreen(), DialogsScreen()];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Another Activity')),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.animation),
+            label: 'Animations',
+          ),
+          NavigationDestination(icon: Icon(Icons.square), label: 'Dialogs'),
+        ],
+      ),
+    );
+  }
+}
+
+class AnimationsScreen extends StatefulWidget {
+  const AnimationsScreen({super.key});
+
+  @override
+  State<AnimationsScreen> createState() => _AnimationsScreenState();
+}
+
+// Usamos TickerProviderStateMixin para el AnimationController
+class _AnimationsScreenState extends State<AnimationsScreen>
+    with TickerProviderStateMixin {
+  // --- Estado y Controladores ---
+
+  // Para Row 1: Animación del corazón
+  late AnimationController _heartController;
+  late Animation<double> _heartSizeAnimation;
+
+  // Para Row 2: Visibilidad
+  bool _isVisible = false;
+
+  // Para Row 3: Rotación
+  bool _isRotated = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Configuración del controlador del corazón (Row 1)
+    _heartController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    // Definimos la animación (Tween) de 0.0 a 100.0
+    _heartSizeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 100.0,
+    ).animate(_heartController);
+
+    // Iniciamos la animación infinita con reversa
+    _heartController.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    // Siempre desechar los controladores
+    _heartController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // --- Row 1: Animación de Tamaño (Corazón) ---
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text("Size Animation"),
+              // AnimatedBuilder se reconstruye cada vez que el controlador notifica un cambio
+              AnimatedBuilder(
+                animation: _heartController,
+                builder: (context, child) {
+                  return Icon(
+                    Icons.favorite,
+                    // El tamaño se toma del valor actual de la animación
+                    size: _heartSizeAnimation.value,
+                    color: Colors.red,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+
+        // --- Row 2: Animación de Visibilidad (Círculo) ---
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _isVisible = !_isVisible;
+                  });
+                },
+                child: Text(_isVisible ? "Hide" : "Show"),
+              ),
+              // AnimatedOpacity anima el cambio de opacidad automáticamente
+              AnimatedOpacity(
+                opacity: _isVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                // Duración estándar de fade
+                child: Container(
+                  width: 100.0,
+                  height: 100.0,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // --- Row 3: Animación de Rotación (Ventilador) ---
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // TweenAnimationBuilder anima un valor cuando el 'tween.end' cambia
+              TweenAnimationBuilder<double>(
+                // El valor final depende del estado _isRotated
+                // 2 * math.pi es 360 grados en radianes
+                tween: Tween<double>(
+                  begin: 0.0,
+                  end: _isRotated ? (2 * math.pi) : 0.0,
+                ),
+                duration: const Duration(milliseconds: 2500),
+                builder: (context, angle, child) {
+                  // Aplicamos la rotación usando el 'angle' animado
+                  return Transform.rotate(angle: angle, child: child);
+                },
+                // El 'child' es el widget que no se reconstruye (el ícono)
+                child: const Icon(
+                  Icons.sync, // Placeholder para R.drawable.toys_fan_24px
+                  size: 150.0,
+                  color: Colors.blueGrey,
+                ),
+              ),
+              // Equivalente al Modifier.padding(top: 50.dp).width(200.dp)
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: SizedBox(
+                  width: 200.0,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _isRotated = !_isRotated;
+                      });
+                    },
+                    child: const Text("Rotate Fan"),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DialogsScreen extends StatelessWidget {
+  const DialogsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Dialog Title"),
+                content: const Text("Dialog Content"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: const Text("Show Dialog"),
       ),
     );
   }
