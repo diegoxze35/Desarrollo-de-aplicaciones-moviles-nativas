@@ -11,18 +11,16 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ModeNight
-import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -50,9 +48,6 @@ fun NavigationApp(
 		topBar = {
 			TopAppBar(
 				title = { Text(getScreenTitle(currentRoute)) },
-				colors = TopAppBarDefaults.topAppBarColors(
-					containerColor = MaterialTheme.colorScheme.primaryContainer
-				),
 				actions = {
 					IconButton(onClick = onThemeChange) {
 						Icon(
@@ -61,13 +56,10 @@ fun NavigationApp(
 						)
 					}
 					val context = LocalContext.current
-					IconButton(onClick = {
+					Button(onClick = {
 						context.startActivity(Intent(context, AnotherActivity::class.java))
 					}) {
-						Icon(
-							imageVector = Icons.Default.Navigation,
-							contentDescription = null
-						)
+						Text(text = "Activity")
 					}
 				}
 			)

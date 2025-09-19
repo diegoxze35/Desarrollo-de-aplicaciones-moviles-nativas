@@ -119,4 +119,7 @@
     <string name="information_progress_circular">Progreso circular:</string>
     <string name="information_loading">Cargando:</string>
     <string name="information_progress_percentage">%1$d%%</string>
+    <string name="title_activity_another">OtraActividad</string>
+    <string name="dialog">Diálogos</string>
+    <string name="anim">Animaciones</string>
 </resources>

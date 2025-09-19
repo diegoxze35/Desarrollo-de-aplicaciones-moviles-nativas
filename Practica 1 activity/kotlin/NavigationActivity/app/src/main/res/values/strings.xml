@@ -120,4 +120,6 @@
     <string name="information_loading">Loading:</string>
     <string name="information_progress_percentage">%1$d%%</string>
     <string name="title_activity_another">AnotherActivity</string>
+    <string name="dialog">Dialogs</string>
+    <string name="anim">Animations</string>
 </resources>
