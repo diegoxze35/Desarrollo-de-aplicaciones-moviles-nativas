@@ -51,8 +51,5 @@ Esta es una aplicación Flutter que replica la funcionalidad de la aplicación A
 
 ## Funcionamiento de la aplicación
 
-[Incluir capturas de pantalla de la aplicación]
+https://github.com/user-attachments/assets/cb2f6a21-c1c1-4d32-b4f1-0ddd510cb01d
 
-## Licencia
-
-Este proyecto está bajo la Licencia MIT.
