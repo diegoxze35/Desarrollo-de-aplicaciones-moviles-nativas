@@ -24,6 +24,8 @@ Esta es una aplicación Android nativa escrita en Kotlin que utiliza Jetpack Com
 2. Abre el proyecto en Android Studio.
 3. Asegúrate de tener configurado el SDK de Android y un emulador.
 4. Ejecuta la aplicación.
+5. Elementos de animación
+6. Diálogos
 
 ## Estructura del proyecto
 
@@ -37,5 +39,7 @@ Esta es una aplicación Android nativa escrita en Kotlin que utiliza Jetpack Com
 - `InformationScreen`: Demostración de textos, imágenes e indicadores de progreso.
 
 ## Funcionamiento de la aplicación
-https://github.com/user-attachments/assets/ea641888-a1d8-40a8-b4e3-5bd7bb6a3714
+
+https://github.com/user-attachments/assets/b24a6fe8-ffb4-4698-8ef9-b8cbf617c702
+
 
