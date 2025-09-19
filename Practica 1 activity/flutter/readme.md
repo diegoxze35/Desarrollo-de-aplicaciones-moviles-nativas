@@ -10,6 +10,7 @@ Esta es una aplicación Flutter que replica la funcionalidad de la aplicación A
 - Controles de selección (Checkbox, Radio, Switch)
 - Listas y grids (ListView, GridView)
 - Elementos de información (Text, Image, ProgressIndicator)
+- **Nueva pantalla con animaciones y diálogos**
 
 ## Tecnologías utilizadas
 
@@ -37,15 +38,21 @@ Esta es una aplicación Flutter que replica la funcionalidad de la aplicación A
 - `SelectionScreen`: Demostración de Checkbox, Radio y Switch.
 - `ListsScreen`: Demostración de ListView y GridView.
 - `InformationScreen`: Demostración de textos, imágenes e indicadores de progreso.
+- `AnotherScreen`: Nueva pantalla con navegación inferior para animaciones y diálogos.
+- `AnimationsScreen`: Demostración de animaciones (tamaño, visibilidad, rotación).
+- `DialogsScreen`: Demostración de diálogos.
 
 ## Diferencias con la versión Kotlin
 
 - La navegación se maneja con un IndexedStack en lugar de NavHost.
 - Los componentes de UI son los equivalentes de Flutter a los de Jetpack Compose.
 - La animación del ProgressIndicator se implementa con AnimationController.
+- La navegación a la nueva pantalla se realiza mediante Navigator.push en lugar de startActivity.
 
 ## Funcionamiento de la aplicación
 
+[Incluir capturas de pantalla de la aplicación]
 
-https://github.com/user-attachments/assets/858ad71e-c9b2-46fe-a2c9-03f8d75629fe
+## Licencia
 
+Este proyecto está bajo la Licencia MIT.
