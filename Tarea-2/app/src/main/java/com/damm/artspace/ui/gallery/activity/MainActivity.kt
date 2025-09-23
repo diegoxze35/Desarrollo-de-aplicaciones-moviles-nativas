@@ -22,12 +22,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.damm.artspace.ui.gallery.navigation.GalleryGridScreen
 import com.damm.artspace.ui.gallery.navigation.ImageScreen
 import com.damm.artspace.ui.gallery.navigation.grid.composable.GalleryGridScreen
+import com.damm.artspace.ui.gallery.navigation.grid.composable.ImagePagerScreen
 import com.damm.artspace.ui.gallery.navigation.grid.composable.PermissionRequestScreen
 import com.damm.artspace.ui.gallery.navigation.grid.state.GalleryGridState
 import com.damm.artspace.ui.gallery.navigation.grid.viewmodel.GalleryGridViewModel
+import com.damm.artspace.ui.gallery.navigation.grid.viewmodel.ImagePagerViewModel
 import com.damm.artspace.ui.gallery.theme.ArtSpaceTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -83,6 +86,8 @@ class MainActivity : ComponentActivity() {
                                         images = state.images,
                                         onLoadNextPage = galleryGridViewModel::loadNextPage,
                                         onImageClick = { index ->
+                                            galleryGridViewModel.setCachedImages(state.images)
+                                            navController.navigate(ImageScreen(index))
                                         }
                                     )
                                 }
@@ -94,7 +99,16 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                        composable<ImageScreen> {}
+                        composable<ImageScreen> {
+                            val route = it.toRoute<ImageScreen>()
+                            val imagePagerViewModel: ImagePagerViewModel = koinViewModel()
+                            val images by imagePagerViewModel.images.collectAsStateWithLifecycle()
+                            ImagePagerScreen(
+                                modifier = Modifier.fillMaxSize(),
+                                images = images,
+                                initialPage = route.imageIndex
+                            )
+                        }
                     }
                 }
             }

@@ -2,7 +2,9 @@ package com.damm.artspace.ui.gallery.navigation.grid.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.damm.artspace.data.gallery.CachedImageRepository
 import com.damm.artspace.data.gallery.ImageRepository
+import com.damm.artspace.domain.gallery.Image
 import com.damm.artspace.ui.gallery.navigation.grid.state.GalleryGridState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +13,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 private const val PAGE_SIZE = 15
-internal class GalleryGridViewModel(private val imageRepository: ImageRepository) : ViewModel() {
+internal class GalleryGridViewModel(
+    private val cachedImageRepository: CachedImageRepository,
+    private val imageRepository: ImageRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<GalleryGridState>(GalleryGridState.Loading)
     val uiState: StateFlow<GalleryGridState> = _uiState.asStateFlow()
@@ -39,6 +44,10 @@ internal class GalleryGridViewModel(private val imageRepository: ImageRepository
                 isLoadingNextPage = false
             }
         }
+    }
+
+    fun setCachedImages(items: List<Image>) {
+        cachedImageRepository.setCachedImages(items)
     }
 
 }

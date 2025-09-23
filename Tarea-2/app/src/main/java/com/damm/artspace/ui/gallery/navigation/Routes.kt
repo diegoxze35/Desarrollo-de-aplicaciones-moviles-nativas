@@ -9,8 +9,4 @@ object PermissionsScreen
 object GalleryGridScreen
 
 @Serializable
-data class ImageScreen(
-    val id: Long,
-    val name: String,
-    val uri: String
-)
+data class ImageScreen(val imageIndex: Int)
