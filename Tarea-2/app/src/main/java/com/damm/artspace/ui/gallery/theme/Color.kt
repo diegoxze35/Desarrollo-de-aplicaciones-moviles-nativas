@@ -1,4 +1,4 @@
-package com.damm.artspace.ui.theme
+package com.damm.artspace.ui.gallery.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,0 +1,66 @@
+package com.damm.artspace.ui.gallery.navigation.grid.composable
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.damm.artspace.domain.gallery.Image
+
+private const val PREFETCH_DISTANCE = 5
+
+@Composable
+internal fun GalleryGridScreen(
+    modifier: Modifier,
+    images: List<Image>,
+    onLoadNextPage: () -> Unit,
+    onImageClick: (Int) -> Unit
+) {
+    val gridState = rememberLazyGridState()
+
+    val reachedEnd by remember {
+        derivedStateOf {
+            with(gridState.layoutInfo) {
+                visibleItemsInfo.lastOrNull()?.let {
+                    it.index >= totalItemsCount - PREFETCH_DISTANCE
+                } ?: false
+            }
+        }
+    }
+
+    LaunchedEffect(reachedEnd) {
+        if (reachedEnd) {
+            onLoadNextPage()
+        }
+    }
+
+    LazyVerticalGrid(
+        state = gridState,
+        modifier = modifier,
+        columns = GridCells.Adaptive(minSize = 120.dp),
+        contentPadding = PaddingValues(all = 8.dp)
+    ) {
+        itemsIndexed(
+            items = images,
+            key = { index, image -> image.id + index + image.dateAddedTime }
+        ) { index, image ->
+            AsyncImage(
+                model = image.uri,
+                contentDescription = image.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.aspectRatio(1f).clickable { onImageClick(index) }
+            )
+        }
+    }
+}
