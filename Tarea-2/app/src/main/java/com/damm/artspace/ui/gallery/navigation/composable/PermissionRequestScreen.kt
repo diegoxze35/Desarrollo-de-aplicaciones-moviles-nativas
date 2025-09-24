@@ -28,12 +28,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.damm.artspace.R
+import com.damm.artspace.ui.gallery.navigation.permissions.RequiredPermission
 
 @Composable
 internal fun PermissionRequestScreen(
     modifier: Modifier = Modifier,
     shouldShowRationale: Boolean,
-    onLaunchPermissionRequest: () -> Unit
+    onLaunchPermissionRequest: () -> Unit,
+    requiredPermission: RequiredPermission
 ) {
 
     Column(
@@ -41,21 +43,20 @@ internal fun PermissionRequestScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        @StringRes val stringResId: Int
+        val message: String
         @StringRes val buttonTextResId: Int
         val onClickAction: () -> Unit
         var icon: ImageVector? = null
-
-
         if (shouldShowRationale) { //Is not permanently denied
             Icon(
-                painter = painterResource(R.drawable.photo_24px), contentDescription = null
+                painter = painterResource(requiredPermission.rationaleIconId), contentDescription = null
             )
-            stringResId = R.string.permission_rationale_gallery
+            message = stringResource(requiredPermission.rationaleTextId)
             buttonTextResId = R.string.permission_request_button
             onClickAction = onLaunchPermissionRequest
         } else {
-            stringResId = R.string.permission_denied_forever_message
+            val deniedFeature = stringResource(requiredPermission.permanentlyDeniedFeatureId)
+            message = stringResource(R.string.permission_denied_forever_message, deniedFeature)
             buttonTextResId = R.string.permission_open_settings_button
             icon = Icons.Default.Settings
             val context = LocalContext.current
@@ -67,7 +68,7 @@ internal fun PermissionRequestScreen(
             }
         }
 
-        Text(text = stringResource(id = stringResId), textAlign = TextAlign.Center)
+        Text(text = message, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onClickAction) {
             icon?.let {
@@ -94,7 +95,8 @@ private fun DeniedPermissionPreview() {
                 .fillMaxSize()
                 .padding(16.dp),
             shouldShowRationale = false,
-            onLaunchPermissionRequest = {}
+            onLaunchPermissionRequest = {},
+            requiredPermission = RequiredPermission.ReadImagesPermission
         )
     }
 }
@@ -111,7 +113,8 @@ private fun PermissionPreview() {
                 .fillMaxSize()
                 .padding(16.dp),
             shouldShowRationale = true,
-            onLaunchPermissionRequest = {}
+            onLaunchPermissionRequest = {},
+            requiredPermission = RequiredPermission.CameraPermission
         )
     }
 }

@@ -144,7 +144,7 @@ internal fun CameraPreview(
 				.fillMaxWidth()
 				.height(dpHeight)
 				.alpha(ALPHA)
-				.background(color = MaterialTheme.colorScheme.secondaryContainer)
+				.background(color = MaterialTheme.colorScheme.primaryContainer)
 		)
 		AnimatedVisibility(
 			visible = focusedIndicator.isVisible,
@@ -213,7 +213,7 @@ internal fun CameraPreview(
 					.align(CenterVertically),
 				isSelectedFlash = isSelectedFlash,
 				orientationDegreesState = orientationDegreesState,
-				icon = R.drawable.outline_cached_24,
+				icon = R.drawable.flip_camera_android_24px,
 				flashMode = FlashState.FlashON,
 				description = R.string.change_camera,
 				onFlashModeChange = onFlashModeChange,
@@ -258,6 +258,6 @@ private fun CameraButton(
 		modifier = Modifier
 			.fillMaxSize()
 			.rotate(orientationDegreesState),
-		tint = MaterialTheme.colorScheme.onSecondaryContainer
+		tint = MaterialTheme.colorScheme.onPrimaryContainer
 	)
 }

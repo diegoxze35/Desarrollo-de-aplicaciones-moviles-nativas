@@ -26,7 +26,7 @@ val appModule = module {
 	single<LifecycleCameraController> {
 		LifecycleCameraController(get()).apply {
 			unbind()
-			isTapToFocusEnabled = true /*Tap to focused manually*/
+			isTapToFocusEnabled = false /*Tap to focused manually*/
 			imageCaptureMode = ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
 			cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 			imageCaptureFlashMode = FLASH_MODE_OFF

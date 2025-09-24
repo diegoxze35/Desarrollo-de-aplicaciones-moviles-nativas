@@ -4,9 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -23,15 +23,15 @@ private const val PREFETCH_DISTANCE = 5
 @Composable
 internal fun GalleryGridScreen(
     modifier: Modifier,
+    lazyGridState: LazyGridState,
     images: List<Image>,
     onLoadNextPage: () -> Unit,
     onImageClick: (Int) -> Unit
 ) {
-    val gridState = rememberLazyGridState()
 
     val reachedEnd by remember {
         derivedStateOf {
-            with(gridState.layoutInfo) {
+            with(lazyGridState.layoutInfo) {
                 visibleItemsInfo.lastOrNull()?.let {
                     it.index >= totalItemsCount - PREFETCH_DISTANCE
                 } ?: false
@@ -46,7 +46,7 @@ internal fun GalleryGridScreen(
     }
 
     LazyVerticalGrid(
-        state = gridState,
+        state = lazyGridState,
         modifier = modifier,
         columns = GridCells.Adaptive(minSize = 120.dp),
         contentPadding = PaddingValues(all = 8.dp)
