@@ -1,4 +1,4 @@
-package com.damm.artspace.ui.gallery.navigation.grid.state
+package com.damm.artspace.ui.gallery.navigation.state
 
 import com.damm.artspace.domain.gallery.Image
 

@@ -1,11 +1,11 @@
-package com.damm.artspace.ui.gallery.navigation.grid.viewmodel
+package com.damm.artspace.ui.gallery.navigation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.damm.artspace.data.gallery.CachedImageRepository
 import com.damm.artspace.data.gallery.ImageRepository
 import com.damm.artspace.domain.gallery.Image
-import com.damm.artspace.ui.gallery.navigation.grid.state.GalleryGridState
+import com.damm.artspace.ui.gallery.navigation.state.GalleryGridState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

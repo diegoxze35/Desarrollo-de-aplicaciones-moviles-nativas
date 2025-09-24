@@ -1,4 +1,4 @@
-package com.damm.artspace.ui.gallery.navigation.grid.composable
+package com.damm.artspace.ui.gallery.navigation.composable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues

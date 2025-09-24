@@ -7,4 +7,9 @@
     <string name="permission_denied_forever_message">You have permanently denied the storage permission. To use this feature, you must enable it manually in the app settings.</string>
     <string name="permission_open_settings_button">Open Settings</string>
     <string name="permission_rationale_title">This app needs access to your photos to display them in a gallery.</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="open_camera">Open the camera for a new photo</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="change_flash">Change Flash Mode</string>
+    <string name="change_camera">Change between front camera and back camera</string>
 </resources>

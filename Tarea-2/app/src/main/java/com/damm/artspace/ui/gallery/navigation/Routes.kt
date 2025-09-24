@@ -3,9 +3,6 @@ package com.damm.artspace.ui.gallery.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-object PermissionsScreen
-
-@Serializable
 object GalleryGridScreen
 
 @Serializable

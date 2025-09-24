@@ -1,4 +1,4 @@
-package com.damm.artspace.ui.gallery.navigation.grid.composable
+package com.damm.artspace.ui.gallery.navigation.composable
 
 import android.content.Intent
 import android.content.res.Configuration
