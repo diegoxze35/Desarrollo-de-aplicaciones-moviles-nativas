@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -14,20 +15,38 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.damm.artspace.R
 import com.damm.artspace.domain.gallery.Image
+import com.damm.artspace.ui.domain.TopAppBarState
 
 private const val PREFETCH_DISTANCE = 5
 
 @Composable
 internal fun GalleryGridScreen(
     modifier: Modifier,
+    onConfigureTopAppBar: (TopAppBarState) -> Unit,
     lazyGridState: LazyGridState,
     images: List<Image>,
     onLoadNextPage: () -> Unit,
     onImageClick: (Int) -> Unit
 ) {
+
+    LaunchedEffect(images.size) {
+        onConfigureTopAppBar(
+            TopAppBarState(title = {
+                Text(
+                    pluralStringResource(
+                        id = R.plurals.galley,
+                        count = images.size,
+                        images.size
+                    )
+                )
+            })
+        )
+    }
 
     val reachedEnd by remember {
         derivedStateOf {
@@ -59,7 +78,9 @@ internal fun GalleryGridScreen(
                 model = image.uri,
                 contentDescription = image.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.aspectRatio(1f).clickable { onImageClick(index) }
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .clickable { onImageClick(index) }
             )
         }
     }

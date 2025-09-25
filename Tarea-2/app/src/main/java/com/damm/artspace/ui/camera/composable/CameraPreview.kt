@@ -1,6 +1,5 @@
 package com.damm.artspace.ui.camera.composable
 
-import android.view.MotionEvent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.camera.core.FocusMeteringAction
@@ -50,214 +49,195 @@ import com.damm.artspace.R
 import com.damm.artspace.ui.camera.state.CameraState
 import com.damm.artspace.ui.camera.state.FlashState
 import com.damm.artspace.ui.camera.state.TapFocusedState
+import com.damm.artspace.ui.camera.utils.TouchVisualizer
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.math.roundToInt
 
 private const val ALPHA = 0.25f
 
 private var focusedSuccessfully: ListenableFuture<FocusMeteringResult>? = null
 private var job: Job =
-	CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY, block = {})
+    CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY, block = {})
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun CameraPreview(
-	modifier: Modifier = Modifier,
-	cameraState: CameraState,
-	orientationDegreesState: Float,
-	isSelectedFlash: Boolean,
-	onChangeIsSelectedFlashMode: () -> Unit,
-	onChangeCamera: () -> Unit,
-	onFlashModeChange: (FlashState) -> Unit,
+    modifier: Modifier = Modifier,
+    cameraState: CameraState,
+    orientationDegreesState: Float,
+    isSelectedFlash: Boolean,
+    onChangeIsSelectedFlashMode: () -> Unit,
+    onChangeCamera: () -> Unit,
+    onFlashModeChange: (FlashState) -> Unit,
 ) {
-	Box(modifier = modifier) {
-		val windowInfo = LocalWindowInfo.current.containerDpSize
-		val dpHeight = windowInfo.height / 8
-		val padding = windowInfo.width / 10
-		var position by remember { mutableStateOf(IntOffset.Zero) }
-		val newPosition by animateIntOffsetAsState(targetValue = position)
-		var focusedIndicator by remember { mutableStateOf(TapFocusedState()) }
-		val coroutine = rememberCoroutineScope()
-		val sizeIndicator = 70.dp//dimensionResource(id = R.dimen.indicator_focused_size)
-		AndroidView(
-			modifier = Modifier
-				.fillMaxSize(),
-			factory = {
-				PreviewView(it).apply {
-					controller = cameraState.cameraController
-					setOnClickListener(null)
-					setOnTouchListener { view, event ->
-						return@setOnTouchListener when (event.action) {
-							MotionEvent.ACTION_UP -> {
-								if (job.isActive) {
-									focusedSuccessfully?.cancel(true)
-									cameraState.cameraController.cameraControl?.cancelFocusAndMetering()
-									job.cancel()
-								}
-								focusedIndicator = focusedIndicator.copy(isVisible = true)
-								val point = meteringPointFactory.createPoint(event.x, event.y)
-								val action = FocusMeteringAction.Builder(point).build()
-								focusedSuccessfully =
-									cameraState.cameraController.cameraControl?.startFocusAndMetering(
-										action
-									)
-								position = (sizeIndicator / 2).run {
-									IntOffset(event.x.roundToInt() - value.roundToInt(), event.y.roundToInt() - value.roundToInt())
-								}
-								job = coroutine.launch {
-									val success = withContext(Dispatchers.IO) {
-										focusedSuccessfully?.get()?.isFocusSuccessful == true
-									}
-									focusedIndicator =
-										focusedIndicator.copy(isFocusSuccess = success)
-									delay(500)
-									focusedIndicator = focusedIndicator.copy(
-										isFocusSuccess = false,
-										isVisible = false
-									)
-								}
-								false
-							}
-							MotionEvent.ACTION_BUTTON_PRESS -> view.performClick()
-							else -> false
-						}
-					}
-				}
-			},
-			update = { preview ->
-				preview.controller?.let {
-					it.cameraSelector = cameraState.currentCameraSelector
-					it.imageCaptureFlashMode = cameraState.flashState.mode
-				}
-			}
-		)
-		Box(
-			modifier = Modifier
-				.align(BottomCenter)
-				.fillMaxWidth()
-				.height(dpHeight)
-				.alpha(ALPHA)
-				.background(color = MaterialTheme.colorScheme.primaryContainer)
-		)
-		AnimatedVisibility(
-			visible = focusedIndicator.isVisible,
-			enter = scaleIn() + slideIn {
-				IntOffset(
-					x = position.x,
-					y = position.y
-				)
-			},
-			exit = scaleOut() + slideOut {
-				IntOffset(
-					x = position.x,
-					y = position.y
-				)
-			}
-		) {
-			
-			Box(
-				modifier = Modifier
-					.size(sizeIndicator)
-					.offset { newPosition }
-					.background(Color.Transparent)
-					.border(width = 3.dp, color = Color.White, shape = CircleShape)
-			)
-		}
-		Row(
-			modifier = Modifier
-				.align(BottomCenter)
-				.fillMaxWidth()
-				.height(dpHeight),
-			horizontalArrangement = Arrangement.SpaceBetween
-		) {
-			val size = dpHeight / 2
-			CameraButton(
-				modifier = Modifier
-					.padding(start = padding)
-					.size(size)
-					.align(CenterVertically),
-				isSelectedFlash = isSelectedFlash,
-				orientationDegreesState = orientationDegreesState,
-				icon = cameraState.flashState.icon,
-				flashMode = FlashState.FlashOFF,
-				description = R.string.change_flash,
-				onFlashModeChange = onFlashModeChange,
-				onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode,
-				onClick = onChangeIsSelectedFlashMode
-			)
-			CameraButton(
-				modifier = Modifier
-					.size(if (!isSelectedFlash) dpHeight else size)
-					.align(CenterVertically),
-				isSelectedFlash = isSelectedFlash,
-				orientationDegreesState = orientationDegreesState,
-				icon = R.drawable.outline_camera_24,
-				flashMode = FlashState.FlashAuto,
-				description = R.string.take_photo,
-				onFlashModeChange = onFlashModeChange,
-				onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode
-			) {
-				//TODO(Implement take new photo)
-			}
-			CameraButton(
-				modifier = Modifier
-					.padding(end = padding)
-					.size(size)
-					.align(CenterVertically),
-				isSelectedFlash = isSelectedFlash,
-				orientationDegreesState = orientationDegreesState,
-				icon = R.drawable.flip_camera_android_24px,
-				flashMode = FlashState.FlashON,
-				description = R.string.change_camera,
-				onFlashModeChange = onFlashModeChange,
-				onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode,
-				onClick = onChangeCamera
-			)
-		}
-	}
-	
+    Box(modifier = modifier) {
+        val windowInfo = LocalWindowInfo.current.containerDpSize
+        val dpHeight = windowInfo.height / 8
+        val padding = windowInfo.width / 10
+        var position by remember { mutableStateOf(IntOffset.Zero) }
+        val newPosition by animateIntOffsetAsState(targetValue = position)
+        var focusedIndicator by remember { mutableStateOf(TapFocusedState()) }
+        val coroutine = rememberCoroutineScope()
+        val sizeIndicator = 70.dp//dimensionResource(id = R.dimen.indicator_focused_size)
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize(),
+            factory = {
+                PreviewView(it).apply {
+                    controller = cameraState.cameraController
+                    setOnClickListener(null)
+                    setOnTouchListener(
+                        TouchVisualizer(
+                            job = job,
+                            coroutine = coroutine,
+                            focusedSuccessfully = focusedSuccessfully,
+                            onStartFocusAndMetering = { x, y ->
+                                val point = meteringPointFactory.createPoint(x, y)
+                                val action = FocusMeteringAction.Builder(point).build()
+                                cameraState.cameraController.cameraControl?.startFocusAndMetering(
+                                    action
+                                )
+                            },
+                            onCancelFocus = { cameraState.cameraController.cameraControl?.cancelFocusAndMetering() },
+                            onFocusedIndicatorChange = { newState ->
+                                focusedIndicator = newState.copy()
+                            },
+                            onPositionChange = { newPosition -> position = newPosition }
+                        )
+                    )
+                }
+            },
+            update = { preview ->
+                preview.controller?.let {
+                    it.cameraSelector = cameraState.currentCameraSelector
+                    it.imageCaptureFlashMode = cameraState.flashState.mode
+                }
+            }
+        )
+        Box(
+            modifier = Modifier
+                .align(BottomCenter)
+                .fillMaxWidth()
+                .height(dpHeight)
+                .alpha(ALPHA)
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+        )
+        AnimatedVisibility(
+            visible = focusedIndicator.isVisible,
+            enter = scaleIn() + slideIn {
+                IntOffset(
+                    x = position.x,
+                    y = position.y
+                )
+            },
+            exit = scaleOut() + slideOut {
+                IntOffset(
+                    x = position.x,
+                    y = position.y
+                )
+            }
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .size(sizeIndicator)
+                    .offset { newPosition }
+                    .background(Color.Transparent)
+                    .border(width = 3.dp, color = Color.White, shape = CircleShape)
+            )
+        }
+        Row(
+            modifier = Modifier
+                .align(BottomCenter)
+                .fillMaxWidth()
+                .height(dpHeight),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            val size = dpHeight / 2
+            CameraButton(
+                modifier = Modifier
+                    .padding(start = padding)
+                    .size(size)
+                    .align(CenterVertically),
+                isSelectedFlash = isSelectedFlash,
+                orientationDegreesState = orientationDegreesState,
+                icon = cameraState.flashState.icon,
+                flashMode = FlashState.FlashOFF,
+                description = R.string.change_flash,
+                onFlashModeChange = onFlashModeChange,
+                onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode,
+                onClick = onChangeIsSelectedFlashMode
+            )
+            CameraButton(
+                modifier = Modifier
+                    .size(if (!isSelectedFlash) dpHeight else size)
+                    .align(CenterVertically),
+                isSelectedFlash = isSelectedFlash,
+                orientationDegreesState = orientationDegreesState,
+                icon = R.drawable.outline_camera_24,
+                flashMode = FlashState.FlashAuto,
+                description = R.string.take_photo,
+                onFlashModeChange = onFlashModeChange,
+                onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode
+            ) {
+                //TODO(Implement take new photo)
+            }
+            CameraButton(
+                modifier = Modifier
+                    .padding(end = padding)
+                    .size(size)
+                    .align(CenterVertically),
+                isSelectedFlash = isSelectedFlash,
+                orientationDegreesState = orientationDegreesState,
+                icon = R.drawable.flip_camera_android_24px,
+                flashMode = FlashState.FlashON,
+                description = R.string.change_camera,
+                onFlashModeChange = onFlashModeChange,
+                onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode,
+                onClick = onChangeCamera
+            )
+        }
+    }
+
 }
 
 @Composable
 private fun CameraButton(
-	modifier: Modifier = Modifier,
-	isSelectedFlash: Boolean,
-	orientationDegreesState: Float,
-	@DrawableRes icon: Int,
-	flashMode: FlashState,
-	@StringRes description: Int,
-	onFlashModeChange: (FlashState) -> Unit,
-	onChangeIsSelectedFlashMode: () -> Unit,
-	onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isSelectedFlash: Boolean,
+    orientationDegreesState: Float,
+    @DrawableRes icon: Int,
+    flashMode: FlashState,
+    @StringRes description: Int,
+    onFlashModeChange: (FlashState) -> Unit,
+    onChangeIsSelectedFlashMode: () -> Unit,
+    onClick: () -> Unit,
 ) = IconButton(
-	onClick = {
-		if (!isSelectedFlash)
-			onClick()
-		else {
-			onFlashModeChange(flashMode)
-			onChangeIsSelectedFlashMode()
-		}
-	},
-	modifier = modifier
+    onClick = {
+        if (!isSelectedFlash)
+            onClick()
+        else {
+            onFlashModeChange(flashMode)
+            onChangeIsSelectedFlashMode()
+        }
+    },
+    modifier = modifier
 ) {
-	Icon(
-		painter = painterResource(
-			id = if (!isSelectedFlash)
-				icon
-			else
-				flashMode.icon
-		),
-		contentDescription = stringResource(id = description),
-		modifier = Modifier
-			.fillMaxSize()
-			.rotate(orientationDegreesState),
-		tint = MaterialTheme.colorScheme.onPrimaryContainer
-	)
+    Icon(
+        painter = painterResource(
+            id = if (!isSelectedFlash)
+                icon
+            else
+                flashMode.icon
+        ),
+        contentDescription = stringResource(id = description),
+        modifier = Modifier
+            .fillMaxSize()
+            .rotate(orientationDegreesState),
+        tint = MaterialTheme.colorScheme.onSecondaryContainer
+    )
 }

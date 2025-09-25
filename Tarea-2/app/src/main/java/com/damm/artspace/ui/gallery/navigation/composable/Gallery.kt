@@ -24,6 +24,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.damm.artspace.ui.domain.TopAppBarState
 import com.damm.artspace.ui.gallery.navigation.ImageScreen
 import com.damm.artspace.ui.gallery.navigation.permissions.RequiredPermission
 import com.damm.artspace.ui.gallery.navigation.state.GalleryGridState
@@ -37,6 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun Gallery(
     modifier: Modifier,
+    onConfigureTopAppBar: (TopAppBarState) -> Unit,
     navController: NavController,
     lazyGridState: LazyGridState,
     showCameraPermissionDialog: Boolean,
@@ -48,9 +50,12 @@ internal fun Gallery(
         Dialog(onDismissRequest = onDismissCameraPermissionDialog) {
             Surface {
                 PermissionRequestScreen(
-                    modifier = Modifier.wrapContentSize().padding(all = 32.dp).clip(
-                        RoundedCornerShape(8.dp)
-                    ),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(all = 32.dp)
+                        .clip(
+                            RoundedCornerShape(8.dp)
+                        ),
                     shouldShowRationale = shouldShowCameraRationale,
                     onLaunchPermissionRequest = onRequestCameraPermission,
                     requiredPermission = RequiredPermission.CameraPermission
@@ -87,6 +92,7 @@ internal fun Gallery(
                 images = state.images,
                 lazyGridState = lazyGridState,
                 onLoadNextPage = galleryGridViewModel::loadNextPage,
+                onConfigureTopAppBar = onConfigureTopAppBar,
                 onImageClick = { index ->
                     galleryGridViewModel.setCachedImages(state.images)
                     navController.navigate(ImageScreen(index))

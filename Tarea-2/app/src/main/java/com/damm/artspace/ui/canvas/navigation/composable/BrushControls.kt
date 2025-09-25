@@ -13,22 +13,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.damm.artspace.R
 
 @Composable
 internal fun BrushControls(
+	modifier: Modifier = Modifier,
 	color: Color,
 	onColorChange: (Color) -> Unit,
 	strokeWidth: Float,
 	onStrokeWidthChange: (Float) -> Unit,
-	modifier: Modifier = Modifier
 ) {
     val colors = listOf(Color.Black, Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Magenta, Color.White)
 
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        // Selector de color
+    Column(modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -43,9 +44,8 @@ internal fun BrushControls(
             }
         }
         Spacer(Modifier.height(16.dp))
-        // Selector de grosor
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Grosor:", modifier = Modifier.padding(end = 8.dp))
+            Text(stringResource(R.string.thickness), modifier = Modifier.padding(end = 8.dp))
             Slider(
                 value = strokeWidth,
                 onValueChange = onStrokeWidthChange,

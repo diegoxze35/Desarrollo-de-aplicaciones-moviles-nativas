@@ -21,6 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ArtSpace">
         <activity
+            android:name=".ui.canvas.activity.CanvasActivity"
+            android:exported="false"
+            android:label="@string/title_activity_canvas"
+            android:theme="@style/Theme.ArtSpace" />
+        <activity
             android:name=".ui.camera.activity.CameraActivity"
             android:configChanges="orientation|screenLayout|screenSize|uiMode"
             android:exported="false"
@@ -34,6 +39,7 @@
             android:theme="@style/Theme.ArtSpace">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

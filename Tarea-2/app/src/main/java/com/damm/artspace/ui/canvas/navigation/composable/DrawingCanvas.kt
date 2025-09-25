@@ -12,7 +12,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import com.damm.artspace.domain.canvas.PathState
 
 @Composable
-fun DrawingCanvas(
+internal fun DrawingCanvas(
 	paths: List<PathState>,
 	modifier: Modifier = Modifier,
 	onPathStarted: (Offset) -> Unit,
@@ -26,7 +26,6 @@ fun DrawingCanvas(
             )
         }
     ) {
-        // Simplemente dibuja todos los trazos directamente en el Canvas
         paths.forEach { pathState ->
             drawPath(
                 path = pathState.path,

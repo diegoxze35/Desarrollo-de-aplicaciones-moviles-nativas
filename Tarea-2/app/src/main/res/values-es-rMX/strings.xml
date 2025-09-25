@@ -14,8 +14,19 @@
     <string name="change_flash">Cambiar el modo de flash</string>
     <string name="change_camera">Cambia entre la cámara frontal y trasera</string>
     <string name="media_storage">almacenamiento</string>
-    <string name="go_back">Go back</string>
-    <string name="undo">Undo</string>
-    <string name="delete_all">Delete all</string>
-    <string name="save">Save</string>
+    <string name="go_back">Ir atras</string>
+    <string name="undo">Deshacer</string>
+    <string name="delete_all">Borrar todo</string>
+    <string name="title_activity_canvas">CanvasActivity</string>
+    <string name="save">Guardar</string>
+    <string name="canvas">Lienzos</string>
+    <string name="new_canvas">Nuevo dibujo</string>
+    <string name="canvas_list">Mis Dibujos</string>
+    <string name="saved_draw">Saved draw</string>
+    <string name="no_drawings">No drawings yet.\nCreate a new one!</string>
+    <string name="thickness">Grosor:</string>
+    <plurals name="galley">
+        <item quantity="one">Galería: %d imagen cargada</item>
+        <item quantity="many">Galería: %d imágenes cargadas</item>
+    </plurals>
 </resources>
