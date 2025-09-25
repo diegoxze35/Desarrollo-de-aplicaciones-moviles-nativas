@@ -14,4 +14,8 @@
     <string name="change_flash">Cambiar el modo de flash</string>
     <string name="change_camera">Cambia entre la cámara frontal y trasera</string>
     <string name="media_storage">almacenamiento</string>
+    <string name="go_back">Go back</string>
+    <string name="undo">Undo</string>
+    <string name="delete_all">Delete all</string>
+    <string name="save">Save</string>
 </resources>

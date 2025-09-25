@@ -13,4 +13,8 @@
     <string name="take_photo">Take a photo</string>
     <string name="change_flash">Change Flash Mode</string>
     <string name="change_camera">Change between front camera and back camera</string>
+    <string name="go_back">Go back</string>
+    <string name="undo">Undo</string>
+    <string name="delete_all">Delete all</string>
+    <string name="save">Save</string>
 </resources>
