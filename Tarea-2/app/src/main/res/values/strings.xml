@@ -19,14 +19,15 @@
     <string name="save">Save</string>
     <string name="title_activity_canvas">CanvasActivity</string>
     <string name="canvas">Canvas</string>
+    <string name="gallery">Gallery</string>
     <string name="new_canvas">New canvas</string>
     <string name="canvas_list">My Canvas</string>
     <string name="saved_draw">Saved draw</string>
     <string name="no_drawings">No drawings yet.\nCreate a new one!</string>
     <string name="thickness">Thickness:</string>
-    <plurals name="galley">
-        <item quantity="one">Gallery: %d image loaded</item>
-        <item quantity="other">Gallery: %d images loaded</item>
+    <plurals name="galley_images">
+        <item quantity="one">%d image loaded</item>
+        <item quantity="other">%d images loaded</item>
     </plurals>
     <!--<string name="gallery">Gallery: %1$d images loaded</string>-->
 </resources>

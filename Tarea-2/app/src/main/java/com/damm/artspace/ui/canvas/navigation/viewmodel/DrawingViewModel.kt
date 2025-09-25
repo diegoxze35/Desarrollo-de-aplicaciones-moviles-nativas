@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DrawingViewModel(private val canvasRepository: CanvasRepository) : ViewModel() {
+internal class DrawingViewModel(private val canvasRepository: CanvasRepository) : ViewModel() {
     private val _canvasState = MutableStateFlow(CanvasState())
     val canvasState = _canvasState.asStateFlow()
 

@@ -52,6 +52,9 @@ class CanvasActivity : ComponentActivity() {
                             title = topBarState.title,
                             actions = {
                                 topBarState.actions?.invoke(this)
+                            },
+                            navigationIcon = {
+                                topBarState.navigationIcon?.invoke()
                             }
                         )
                     },

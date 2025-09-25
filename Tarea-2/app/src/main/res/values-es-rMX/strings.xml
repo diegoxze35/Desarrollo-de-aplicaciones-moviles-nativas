@@ -20,13 +20,14 @@
     <string name="title_activity_canvas">CanvasActivity</string>
     <string name="save">Guardar</string>
     <string name="canvas">Lienzos</string>
+    <string name="gallery">Galería</string>
     <string name="new_canvas">Nuevo dibujo</string>
     <string name="canvas_list">Mis Dibujos</string>
     <string name="saved_draw">Saved draw</string>
     <string name="no_drawings">No drawings yet.\nCreate a new one!</string>
     <string name="thickness">Grosor:</string>
-    <plurals name="galley">
-        <item quantity="one">Galería: %d imagen cargada</item>
-        <item quantity="many">Galería: %d imágenes cargadas</item>
+    <plurals name="galley_images">
+        <item quantity="one">%d imagen cargada</item>
+        <item quantity="many">%d imágenes cargadas</item>
     </plurals>
 </resources>

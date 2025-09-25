@@ -98,6 +98,9 @@ class MainActivity : ComponentActivity() {
                                     Icon(Icons.Default.Create, contentDescription = null)
                                     Text(text = stringResource(R.string.canvas))
                                 }
+                            },
+                            navigationIcon = {
+                                topBarState.navigationIcon?.invoke()
                             }
                         )
                     },
@@ -140,7 +143,8 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize(),
                                 images = images,
                                 initialPage = route.imageIndex,
-                                onConfigureTopAppBar = { topBarState = it }
+                                onConfigureTopAppBar = { topBarState = it },
+                                onReturnToGalleryGrid = { navController.popBackStack() }
                             )
                         }
                     }
