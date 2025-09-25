@@ -44,21 +44,21 @@ Además de la separación por capas, el proyecto está organizado por **funciona
 
 ```
 com.damm.artspace
-├── data
+├── data           // Repositorios
 │   ├── canvas
 │   └── gallery
 │
 ├── di
-│   # Módulos de Inyección de Dependencias (Hilt, Koin, etc.)
+│   # Módulos de Inyección de Dependencias (Koin)
 │
-├── domain
+├── domain         //Modelo de datos
 │   ├── canvas
 │   └── gallery
 │
 └── ui
     ├── camera
     ├── canvas
-    ├── domain  // Posiblemente la feature principal o 'home'
+    ├── domain     // datos compartidos entre features
     └── gallery
 ```
 
@@ -91,24 +91,33 @@ Contiene todo lo relacionado con la interfaz de usuario y la interacción con el
     * Mostrar los datos en la pantalla.
     * Manejar las interacciones del usuario (clics, gestos, etc.).
     * Observar los cambios de estado y actualizar la UI en consecuencia.
-* **Contenido típico:** Activities, Fragments, ViewModels, Composable functions (si se usa Jetpack Compose) y clases de estado de la UI (UI State).
-
 ---
 
 ### Módulos Transversales
 
-#### 💉 Inyección de Dependencias (`di`)
+####💉 Inyección de Dependencias (`di`)
 
 El paquete `di` es fundamental para conectar las diferentes capas sin generar acoplamiento directo
 
----
+    •data: Contiene la lógica de acceso a datos. Se encarga de decidir si obtener datos de una API remota o de una base de datos local.
+    •di: Proporciona las dependencias necesarias a través de la inyección de dependencias, facilitando las pruebas y el desacoplamiento.
+    •ui: Contiene toda la lógica relacionada con la interfaz de usuario, construida con Jetpack Compose.•Se divide en sub-paquetes por funcionalidad (camera, canvas, gallery).
+    •composable: Alberga las pantallas y componentes @Composable.
+    •domain: Contiene clases de estado o modelos que son útiles para la capa de UI pero no pertenecen a la lógica de negocio principal.Tecnologías y Librerías•Lenguaje: Kotlin
+    •UI Toolkit: Jetpack Compose para una UI declarativa y moderna.
+    •Diseño: Material 3 para los componentes visuales.
+    •Asincronía: Coroutines de Kotlin para gestionar operaciones en segundo plano.•Arquitectura: Patrones de arquitectura limpia (UI, Dominio, Datos) y MVVM/MVI.
+    •Navegación: Compose Navigation para la navegación entre pantallas.
+    •Cámara: CameraX para una abstracción simplificada y robusta de la API de la cámara.
 
-### 🌊 Flujo de Datos Típico
+# Cómo Compilar y Ejecutar
+ 1.Clona este repositorio: git clone <URL_DEL_REPOSITORIO>
+ 2.Abre el proyecto en la última versión de Android Studio.
+ 3.Espera a que la sincronización de Gradle finalice.4.Selecciona un emulador o conecta un dispositivo físico.5.Presiona el botón "Run" (Shift + F10).
 
-Un flujo de interacción común en esta arquitectura sería:
+# Funcionamiento
 
-1.  **UI:** Un usuario realiza una acción (ej. presiona un botón). La Vista (Activity/Fragment/Composable) notifica al **ViewModel**.
-2.  **ViewModel:** Llama a un **Caso de Uso** (Use Case) en la capa de `domain` para ejecutar la lógica de negocio.
-3.  **Domain:** El Caso de Uso utiliza la interfaz del **Repositorio** para solicitar los datos necesarios.
-4.  **Data:** La implementación del Repositorio en la capa `data` obtiene los datos de la fuente correspondiente (API o base de datos local).
-5.  El flujo de datos regresa por el mismo camino: `Data` -> `Domain` -> `UI`, transformando los modelos en cada capa según sea necesario, hasta que finalmente el **ViewModel** actualiza el estado de la UI para que la vista lo muestre al usuario.
+https://github.com/user-attachments/assets/00db76a7-0bc7-4929-9ef2-925f48c92370
+
+
+
