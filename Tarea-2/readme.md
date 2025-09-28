@@ -125,6 +125,4 @@ La aplicación ahora cuenta con un botón de cambio de tema en la parte superior
 El cual permite al usuario cambiar el tema de la aplicación entre claro y oscuro.
 Este cambio persiste aún cuando se cierre la aplicación y se vuelva a abrir.
 
-
-
-
+https://github.com/user-attachments/assets/8b060c32-3e8a-4e19-b424-068d32252762
