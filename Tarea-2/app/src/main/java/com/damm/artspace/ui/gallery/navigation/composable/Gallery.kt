@@ -24,7 +24,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.damm.artspace.ui.domain.TopAppBarState
+import com.damm.artspace.ui.common.state.TopAppBarState
 import com.damm.artspace.ui.gallery.navigation.ImageScreen
 import com.damm.artspace.ui.gallery.navigation.permissions.RequiredPermission
 import com.damm.artspace.ui.gallery.navigation.state.GalleryGridState

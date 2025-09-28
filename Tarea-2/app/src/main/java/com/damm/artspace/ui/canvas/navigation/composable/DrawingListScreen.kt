@@ -21,7 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.damm.artspace.R
-import com.damm.artspace.ui.domain.TopAppBarState
+import com.damm.artspace.ui.common.state.TopAppBarState
 
 @Composable
 internal fun DrawingListScreen(

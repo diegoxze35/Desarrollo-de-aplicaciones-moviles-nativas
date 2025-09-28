@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,31 +31,27 @@ import com.damm.artspace.ui.canvas.navigation.composable.DrawingScreen
 import com.damm.artspace.ui.canvas.navigation.viewmodel.CanvasListViewModel
 import com.damm.artspace.ui.canvas.navigation.viewmodel.DrawingViewModel
 import com.damm.artspace.ui.canvas.theme.ArtSpaceTheme
-import com.damm.artspace.ui.domain.TopAppBarState
+import com.damm.artspace.ui.common.composable.ThemeTopAppBar
+import com.damm.artspace.ui.common.preferences.IS_DARK_THEME_KEY
+import com.damm.artspace.ui.common.preferences.dataStore
+import com.damm.artspace.ui.common.state.TopAppBarState
+import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 
 class CanvasActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val preferences = dataStore.data.map { it[IS_DARK_THEME_KEY] ?: false }
+            val selectedTheme by preferences.collectAsStateWithLifecycle(initialValue = false)
             var topBarState by remember { mutableStateOf(TopAppBarState()) }
-            var fabVisible by rememberSaveable { mutableStateOf(true) }
-            ArtSpaceTheme {
+            ArtSpaceTheme(darkTheme = selectedTheme) {
+                var fabVisible by rememberSaveable { mutableStateOf(true) }
                 val navController = rememberNavController()
                 Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = topBarState.title,
-                            actions = {
-                                topBarState.actions?.invoke(this)
-                            },
-                            navigationIcon = {
-                                topBarState.navigationIcon?.invoke()
-                            }
-                        )
-                    },
+                    topBar = { ThemeTopAppBar(topBarState = topBarState, isAppInDarkTheme = selectedTheme) },
                     modifier = Modifier.fillMaxSize(),
                     floatingActionButton = {
                         if (fabVisible) {

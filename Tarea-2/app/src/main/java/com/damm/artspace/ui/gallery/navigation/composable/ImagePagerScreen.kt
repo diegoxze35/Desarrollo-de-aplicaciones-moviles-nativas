@@ -33,7 +33,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -44,7 +43,7 @@ import androidx.compose.ui.util.lerp
 import coil.compose.AsyncImage
 import com.damm.artspace.R
 import com.damm.artspace.domain.gallery.Image
-import com.damm.artspace.ui.domain.TopAppBarState
+import com.damm.artspace.ui.common.state.TopAppBarState
 import kotlinx.coroutines.delay
 import java.util.Date
 import kotlin.math.absoluteValue
@@ -139,7 +138,7 @@ internal fun ImagePagerScreen(
 				Row(
 					modifier = Modifier
 						.fillMaxWidth()
-						.background(Color.Black.copy(alpha = 0.5f))
+						.background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f))
 						.height(80.dp)
 						.padding(horizontal = 24.dp),
 					verticalAlignment = Alignment.CenterVertically,
@@ -147,11 +146,13 @@ internal fun ImagePagerScreen(
 				) {
 					Icon(
 						imageVector = Icons.Default.DateRange,
-						contentDescription = null
+						contentDescription = null,
+						tint = MaterialTheme.colorScheme.onSecondaryContainer
 					)
 					Text(
 						text = formatter.format(Date(image.dateAddedTime * 1_000L)),
-						style = MaterialTheme.typography.titleLarge
+						style = MaterialTheme.typography.titleLarge,
+						color = MaterialTheme.colorScheme.onSecondaryContainer
 					)
 				}
 			}

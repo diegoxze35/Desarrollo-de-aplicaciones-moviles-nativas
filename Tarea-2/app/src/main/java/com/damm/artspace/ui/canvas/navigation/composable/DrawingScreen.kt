@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.damm.artspace.R
 import com.damm.artspace.ui.canvas.state.CanvasState
-import com.damm.artspace.ui.domain.TopAppBarState
+import com.damm.artspace.ui.common.state.TopAppBarState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

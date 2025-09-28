@@ -1,4 +1,4 @@
-package com.damm.artspace.ui.domain
+package com.damm.artspace.ui.common.state
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Text
