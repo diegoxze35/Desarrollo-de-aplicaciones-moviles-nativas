@@ -119,5 +119,12 @@ El paquete `di` es fundamental para conectar las diferentes capas sin generar ac
 
 https://github.com/user-attachments/assets/00db76a7-0bc7-4929-9ef2-925f48c92370
 
+# Actualización Practica 2 - Preferencia de temas
+
+La aplicación ahora cuenta con un botón de cambio de tema en la parte superior derecha de la pantalla.
+El cual permite al usuario cambiar el tema de la aplicación entre claro y oscuro.
+Este cambio persiste aún cuando se cierre la aplicación y se vuelva a abrir.
+
+
 
 
