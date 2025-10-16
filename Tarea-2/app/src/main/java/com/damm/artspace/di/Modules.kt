@@ -10,6 +10,7 @@ import com.damm.artspace.data.gallery.CachedImageRepository
 import com.damm.artspace.data.gallery.ImageRepository
 import com.damm.artspace.data.gallery.impl.CachedImageRepositoryImpl
 import com.damm.artspace.data.gallery.impl.MediaStoreImageRepository
+import com.damm.artspace.ui.camera.viewmodel.CameraViewModel
 import com.damm.artspace.ui.canvas.navigation.viewmodel.CanvasListViewModel
 import com.damm.artspace.ui.canvas.navigation.viewmodel.DrawingViewModel
 import com.damm.artspace.ui.gallery.navigation.viewmodel.GalleryGridViewModel
@@ -45,5 +46,6 @@ val appModule = module {
 	viewModelOf(constructor = ::ImagePagerViewModel)
 	viewModelOf(constructor = ::CanvasListViewModel)
 	viewModelOf(constructor = ::DrawingViewModel)
+	viewModelOf(constructor = ::CameraViewModel)
 
 }

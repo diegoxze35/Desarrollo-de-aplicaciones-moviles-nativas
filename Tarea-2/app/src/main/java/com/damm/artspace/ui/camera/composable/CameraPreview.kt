@@ -14,25 +14,31 @@ import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -47,8 +53,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.damm.artspace.R
 import com.damm.artspace.ui.camera.state.CameraState
+import com.damm.artspace.ui.camera.state.FilterState
 import com.damm.artspace.ui.camera.state.FlashState
 import com.damm.artspace.ui.camera.state.TapFocusedState
+import com.damm.artspace.ui.camera.state.TimerState
 import com.damm.artspace.ui.camera.utils.TouchVisualizer
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.CoroutineScope
@@ -70,16 +78,23 @@ internal fun CameraPreview(
     cameraState: CameraState,
     orientationDegreesState: Float,
     isSelectedFlash: Boolean,
+    timerState: TimerState,
     onChangeIsSelectedFlashMode: () -> Unit,
     onChangeCamera: () -> Unit,
     onFlashModeChange: (FlashState) -> Unit,
+    onTakePhoto: () -> Unit,
+    onTimerChange: (TimerState) -> Unit,
+    onFilterChange: (FilterState) -> Unit
 ) {
+    var showTimerOptions by remember { mutableStateOf(false) }
+    var showFilterOptions by remember { mutableStateOf(false) }
+
     Box(modifier = modifier) {
         val windowInfo = LocalWindowInfo.current.containerDpSize
         val dpHeight = windowInfo.height / 8
         val padding = windowInfo.width / 10
         var position by remember { mutableStateOf(IntOffset.Zero) }
-        val newPosition by animateIntOffsetAsState(targetValue = position)
+        val newPosition by animateIntOffsetAsState(targetValue = position, label = "")
         var focusedIndicator by remember { mutableStateOf(TapFocusedState()) }
         val coroutine = rememberCoroutineScope()
         val sizeIndicator = 70.dp//dimensionResource(id = R.dimen.indicator_focused_size)
@@ -118,6 +133,19 @@ internal fun CameraPreview(
                 }
             }
         )
+
+        TopBar(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth(),
+            showTimerOptions = showTimerOptions,
+            onShowTimerOptionsChange = { showTimerOptions = it },
+            onTimerChange = onTimerChange,
+            showFilterOptions = showFilterOptions,
+            onShowFilterOptionsChange = { showFilterOptions = it },
+            onFilterChange = onFilterChange
+        )
+
         Box(
             modifier = Modifier
                 .align(BottomCenter)
@@ -182,10 +210,9 @@ internal fun CameraPreview(
                 flashMode = FlashState.FlashAuto,
                 description = R.string.take_photo,
                 onFlashModeChange = onFlashModeChange,
-                onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode
-            ) {
-                //TODO(Implement take new photo)
-            }
+                onChangeIsSelectedFlashMode = onChangeIsSelectedFlashMode,
+                onClick = onTakePhoto
+            )
             CameraButton(
                 modifier = Modifier
                     .padding(end = padding)
@@ -202,7 +229,86 @@ internal fun CameraPreview(
             )
         }
     }
+}
 
+@Composable
+private fun TopBar(
+    modifier: Modifier = Modifier,
+    showTimerOptions: Boolean,
+    onShowTimerOptionsChange: (Boolean) -> Unit,
+    onTimerChange: (TimerState) -> Unit,
+    showFilterOptions: Boolean,
+    onShowFilterOptionsChange: (Boolean) -> Unit,
+    onFilterChange: (FilterState) -> Unit
+) {
+    Column(modifier = modifier.padding(16.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = CenterVertically
+        ) {
+            IconButton(onClick = {
+                onShowTimerOptionsChange(!showTimerOptions)
+                onShowFilterOptionsChange(false)
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.timer_24px),
+                    contentDescription = "Timer",
+                    tint = Color.White
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            IconButton(onClick = {
+                onShowFilterOptionsChange(!showFilterOptions)
+                onShowTimerOptionsChange(false)
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.filter_vintage_24px),
+                    contentDescription = "Filters",
+                    tint = Color.White
+                )
+            }
+        }
+
+        AnimatedVisibility(visible = showTimerOptions) {
+            TimerOptions(onTimerChange = onTimerChange)
+        }
+
+        AnimatedVisibility(visible = showFilterOptions) {
+            FilterOptions(onFilterChange = onFilterChange)
+        }
+    }
+}
+
+@Composable
+private fun TimerOptions(onTimerChange: (TimerState) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Text("Off", Modifier.clickable { onTimerChange(TimerState.Off) }, color = Color.White)
+        Text("3s", Modifier.clickable { onTimerChange(TimerState.Sec3) }, color = Color.White)
+        Text("5s", Modifier.clickable { onTimerChange(TimerState.Sec5) }, color = Color.White)
+        Text("10s", Modifier.clickable { onTimerChange(TimerState.Sec10) }, color = Color.White)
+    }
+}
+
+@Composable
+private fun FilterOptions(onFilterChange: (FilterState) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Text("None", Modifier.clickable { onFilterChange(FilterState.None) }, color = Color.White)
+        Text("Gray", Modifier.clickable { onFilterChange(FilterState.Grayscale) }, color = Color.White)
+        Text("Sepia", Modifier.clickable { onFilterChange(FilterState.Sepia) }, color = Color.White)
+    }
 }
 
 @Composable
