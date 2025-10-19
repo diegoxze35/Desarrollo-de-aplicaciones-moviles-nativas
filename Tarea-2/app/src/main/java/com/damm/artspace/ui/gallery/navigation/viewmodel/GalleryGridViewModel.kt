@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.damm.artspace.data.gallery.CachedImageRepository
 import com.damm.artspace.data.gallery.ImageRepository
 import com.damm.artspace.domain.gallery.Image
+import com.damm.artspace.ui.common.repository.ImageChangeNotifier
 import com.damm.artspace.ui.gallery.navigation.state.GalleryGridState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,9 +14,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 private const val PAGE_SIZE = 15
+
 internal class GalleryGridViewModel(
     private val cachedImageRepository: CachedImageRepository,
-    private val imageRepository: ImageRepository
+    private val imageRepository: ImageRepository,
+    private val notifier: ImageChangeNotifier
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<GalleryGridState>(GalleryGridState.Loading)
@@ -23,6 +26,20 @@ internal class GalleryGridViewModel(
 
     private var currentPage = 1
     private var isLoadingNextPage = false
+
+    init {
+        viewModelScope.launch {
+            notifier.dataNeedsRefresh.collect {
+                reset()
+            }
+        }
+    }
+
+    private fun reset() {
+        currentPage = 1
+        _uiState.value = GalleryGridState.Loading
+        loadNextPage()
+    }
 
     fun loadNextPage() {
         if (isLoadingNextPage) return

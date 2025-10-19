@@ -36,13 +36,7 @@ internal class TouchVisualizer(
                     job.cancel()
                 }
                 onFocusedIndicatorChange(TapFocusedState(isVisible = true))
-                /*focusedIndicator = focusedIndicator.copy(isVisible = true)*/
-                /*val point = onCreatePoint(event.x, event.y)
-                val action = FocusMeteringAction.Builder(point).build()*/
                 focusedSuccessfully = onStartFocusAndMetering(event.x, event.y)
-                    /*cameraState.cameraController.cameraControl?.startFocusAndMetering(
-                        action
-                    )*/
                 onPositionChange(
                     (sizeIndicator / 2).run {
                         IntOffset(
@@ -51,12 +45,6 @@ internal class TouchVisualizer(
                         )
                     }
                 )
-                /*position = (sizeIndicator / 2).run {
-                    IntOffset(
-                        event.x.roundToInt() - value.roundToInt(),
-                        event.y.roundToInt() - value.roundToInt()
-                    )
-                }*/
                 job = coroutine.launch {
                     val success = withContext(Dispatchers.IO) {
                         focusedSuccessfully?.get()?.isFocusSuccessful == true
@@ -64,8 +52,6 @@ internal class TouchVisualizer(
                     onFocusedIndicatorChange(
                         TapFocusedState(isFocusSuccess = success)
                     )
-                    /*focusedIndicator =
-                        focusedIndicator.copy(isFocusSuccess = success)*/
                     delay(500)
                     onFocusedIndicatorChange(
                         TapFocusedState(
@@ -73,10 +59,6 @@ internal class TouchVisualizer(
                             isVisible = false
                         )
                     )
-                    /*focusedIndicator = focusedIndicator.copy(
-                        isFocusSuccess = false,
-                        isVisible = false
-                    )*/
                 }
                 false
             }

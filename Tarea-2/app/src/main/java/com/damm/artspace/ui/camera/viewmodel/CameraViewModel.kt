@@ -16,13 +16,16 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.damm.artspace.ui.camera.activity.CameraActivity
 import com.damm.artspace.ui.camera.state.CameraState
 import com.damm.artspace.ui.camera.state.CameraUiState
 import com.damm.artspace.ui.camera.state.FilterState
 import com.damm.artspace.ui.camera.state.FlashState
 import com.damm.artspace.ui.camera.state.TimerState
+import com.damm.artspace.ui.common.repository.ImageChangeNotifier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,13 +33,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
-import androidx.core.graphics.createBitmap
-import com.damm.artspace.ui.camera.activity.CameraActivity
 
 private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+private const val SECOND = 1_000L
 
 internal class CameraViewModel(
-    private val cameraController: LifecycleCameraController
+    private val cameraController: LifecycleCameraController,
+    private val notifier: ImageChangeNotifier
 ) : ViewModel() {
 
     fun bind(activity: CameraActivity) {
@@ -99,9 +102,13 @@ internal class CameraViewModel(
     }
 
     fun takePhoto(context: Context) {
+        _uiState.update { it.copy(isTakingPhoto = true) }
         viewModelScope.launch {
-            delay(uiState.value.timerState.duration)
-
+            val timerState = uiState.value.timerState
+            repeat(timerState.duration + 1) { n ->
+                _uiState.update { it.copy(remainingDelay = timerState.duration - n) }
+                delay(SECOND)
+            }
             val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
                 .format(System.currentTimeMillis())
             val contentValues = ContentValues().apply {
@@ -125,7 +132,9 @@ internal class CameraViewModel(
                 ContextCompat.getMainExecutor(context),
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onError(exc: ImageCaptureException) {
-                        Log.e("CameraViewModel", "Photo capture failed: ${exc.message}", exc)
+                        _uiState.update {
+                            it.copy(errorMessage = "${exc.message}", isTakingPhoto = false)
+                        }
                     }
 
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -142,6 +151,8 @@ internal class CameraViewModel(
                                 filteredBitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
                             }
                         }
+                        viewModelScope.launch { notifier.notifyDataChanged() }
+                        _uiState.update { it.copy(isTakingPhoto = false) }
                     }
                 }
             )
@@ -163,19 +174,7 @@ internal class CameraViewModel(
                 }
                 colorMatrix.postConcat(sepiaMatrix)
             }
-            is FilterState.BrightnessContrast -> {
-                colorMatrix.setScale(filter.contrast, filter.contrast, filter.contrast, 1f)
-                colorMatrix.postConcat(ColorMatrix().apply {
-                    set(
-                        floatArrayOf(
-                            1f, 0f, 0f, 0f, filter.brightness,
-                            0f, 1f, 0f, 0f, filter.brightness,
-                            0f, 0f, 1f, 0f, filter.brightness,
-                            0f, 0f, 0f, 1f, 0f
-                        )
-                    )
-                })
-            }
+
             FilterState.None -> return bitmap
         }
 

@@ -65,8 +65,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-private const val ALPHA = 0.25f
-
 private var focusedSuccessfully: ListenableFuture<FocusMeteringResult>? = null
 private var job: Job =
     CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY, block = {})
@@ -137,23 +135,18 @@ internal fun CameraPreview(
         TopBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(top = 24.dp),
+            timerState = timerState,
             showTimerOptions = showTimerOptions,
             onShowTimerOptionsChange = { showTimerOptions = it },
             onTimerChange = onTimerChange,
             showFilterOptions = showFilterOptions,
             onShowFilterOptionsChange = { showFilterOptions = it },
-            onFilterChange = onFilterChange
+            onFilterChange = onFilterChange,
+            orientationDegreesState = orientationDegreesState
         )
 
-        Box(
-            modifier = Modifier
-                .align(BottomCenter)
-                .fillMaxWidth()
-                .height(dpHeight)
-                .alpha(ALPHA)
-                .background(color = MaterialTheme.colorScheme.secondaryContainer)
-        )
         AnimatedVisibility(
             visible = focusedIndicator.isVisible,
             enter = scaleIn() + slideIn {
@@ -182,7 +175,10 @@ internal fun CameraPreview(
             modifier = Modifier
                 .align(BottomCenter)
                 .fillMaxWidth()
-                .height(dpHeight),
+                .height(dpHeight)
+                .alpha(0.65f)
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                .padding(bottom = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             val size = dpHeight / 2
@@ -234,16 +230,21 @@ internal fun CameraPreview(
 @Composable
 private fun TopBar(
     modifier: Modifier = Modifier,
+    timerState: TimerState,
     showTimerOptions: Boolean,
     onShowTimerOptionsChange: (Boolean) -> Unit,
     onTimerChange: (TimerState) -> Unit,
     showFilterOptions: Boolean,
     onShowFilterOptionsChange: (Boolean) -> Unit,
-    onFilterChange: (FilterState) -> Unit
+    onFilterChange: (FilterState) -> Unit,
+    orientationDegreesState: Float
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .alpha(0.65f)
+                .background(MaterialTheme.colorScheme.secondaryContainer),
             horizontalArrangement = Arrangement.End,
             verticalAlignment = CenterVertically
         ) {
@@ -252,9 +253,12 @@ private fun TopBar(
                 onShowFilterOptionsChange(false)
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.timer_24px),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .rotate(orientationDegreesState),
+                    painter = painterResource(id = timerState.icon),
                     contentDescription = "Timer",
-                    tint = Color.White
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -263,19 +267,22 @@ private fun TopBar(
                 onShowTimerOptionsChange(false)
             }) {
                 Icon(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .rotate(orientationDegreesState),
                     painter = painterResource(id = R.drawable.filter_vintage_24px),
                     contentDescription = "Filters",
-                    tint = Color.White
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
 
         AnimatedVisibility(visible = showTimerOptions) {
-            TimerOptions(onTimerChange = onTimerChange)
+            TimerOptions(onTimerChange = { onTimerChange(it); onShowTimerOptionsChange(false) })
         }
 
         AnimatedVisibility(visible = showFilterOptions) {
-            FilterOptions(onFilterChange = onFilterChange)
+            FilterOptions(onFilterChange = { onFilterChange(it); onShowFilterOptionsChange(false) })
         }
     }
 }
@@ -306,7 +313,11 @@ private fun FilterOptions(onFilterChange: (FilterState) -> Unit) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Text("None", Modifier.clickable { onFilterChange(FilterState.None) }, color = Color.White)
-        Text("Gray", Modifier.clickable { onFilterChange(FilterState.Grayscale) }, color = Color.White)
+        Text(
+            "Gray",
+            Modifier.clickable { onFilterChange(FilterState.Grayscale) },
+            color = Color.White
+        )
         Text("Sepia", Modifier.clickable { onFilterChange(FilterState.Sepia) }, color = Color.White)
     }
 }
