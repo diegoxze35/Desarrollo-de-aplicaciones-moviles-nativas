@@ -48,8 +48,8 @@ class CameraActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        cameraViewModel.bind(this)
         setContent {
-            cameraViewModel.bind(this)
             val uiState by cameraViewModel.uiState.collectAsStateWithLifecycle()
             val orientation by animateFloatAsState(
                 targetValue = orientationState,

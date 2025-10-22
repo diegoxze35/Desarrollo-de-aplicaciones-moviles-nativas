@@ -21,6 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ArtSpace">
         <activity
+            android:name=".ui.recorder.AudioRecorder"
+            android:exported="false"
+            android:label="@string/title_activity_audio_recorder"
+            android:theme="@style/Theme.ArtSpace" />
+        <activity
             android:name=".ui.canvas.activity.CanvasActivity"
             android:exported="false"
             android:label="@string/title_activity_canvas"

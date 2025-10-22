@@ -29,5 +29,6 @@
         <item quantity="one">%d image loaded</item>
         <item quantity="other">%d images loaded</item>
     </plurals>
+    <string name="title_activity_audio_recorder">AudioRecorder</string>
     <!--<string name="gallery">Gallery: %1$d images loaded</string>-->
 </resources>
